@@ -39,8 +39,7 @@ def get_streets(bbox_coord):
     lat_min, lon_min = bbox_coord[0], bbox_coord[1]
     lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     """ fetch all ways and nodes """
-    api = overpy.Overpass(
-        url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter")
+    api = overpy.Overpass()
     try:
         OSM_data = api.query(
             f"""
@@ -238,8 +237,7 @@ def allot_intersection(processed_OSM_data, inters_rec_up
 def get_amenities(bbox_coord):
     # Send request to OSM to get amenities which are part of
     # points of interest (POIs)
-    api = overpy.Overpass(
-        url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter")
+    api = overpy.Overpass()
     lat_min, lon_min = bbox_coord[0], bbox_coord[1]
     lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     try:
