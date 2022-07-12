@@ -247,7 +247,7 @@ def get_amenities(bbox_coord):
             f"""
         node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         (._;>;);
-        out center;
+        out body;
         """
         )
     except OverpassGatewayTimeout:
