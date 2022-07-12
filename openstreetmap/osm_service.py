@@ -245,9 +245,9 @@ def get_amenities(bbox_coord):
     try:
         amenities = api.query(
             f"""
-        node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        
         way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        relation({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"]; 
+       
         
         (._;>;);
         out body;
