@@ -247,8 +247,7 @@ def get_amenities(bbox_coord):
             f"""
         
         node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        relation({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        
         (._;>;);
         out body;
         """
@@ -268,7 +267,7 @@ def get_amenities(bbox_coord):
     else:
         # Filter the amenity tags to the basic useful ones
         amenity = []
-        for node in amenities.nodes:
+        for node in amenities:
             if node.tags.get("amenity") is not None:
                 amenity_record = {
                     "id": int(node.id),
