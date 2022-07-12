@@ -246,7 +246,7 @@ def get_amenities(bbox_coord):
         amenities = api.query(
             f"""
         
-        way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
        
         
         (._;>;);
@@ -268,6 +268,7 @@ def get_amenities(bbox_coord):
     else:
         # Filter the amenity tags to the basic useful ones
         amenity = []
+        """
         for node in amenities.nodes:
             if node.tags.get("amenity") is not None:
                 amenity_record = {
@@ -279,8 +280,8 @@ def get_amenities(bbox_coord):
                 }
             # Delete key if value is empty
             amenity_record = dict(x for x in amenity_record.items() if all(x))
-            amenity.append(amenity_record)
-        return amenity
+            amenity.append(amenity_record)"""
+        return amenities
 
 
 def enlist_POIs(processed_OSM_data1, amenity):
