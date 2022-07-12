@@ -295,7 +295,10 @@ def get_amenities(bbox_coord):
                         "name": node.tags.get("name"),
                         "cat": node.tags.get("amenity"),
                     }
-                    amenity.append(amenity_record)
+                # Delete keys with no value
+                amenity_record = dict(x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record) 
+                
         if amenity_way:
             for way in amenity_way.ways:
                 if way.tags.get("amenity") is not None:
@@ -304,7 +307,10 @@ def get_amenities(bbox_coord):
                         "name": way.tags.get("name"),
                         "cat": way.tags.get("amenity"),
                     }
-                    amenity.append(amenity_record)
+                # Delete keys with no value
+                amenity_record = dict(x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record) 
+
         if amenity_rel:
             for relation in amenity_rel.relations:
                 if relation.tags.get("amenity") is not None:
@@ -313,10 +319,9 @@ def get_amenities(bbox_coord):
                         "name": relation.tags.get("name"),
                         "cat": relation.tags.get("amenity"),
                     }
-                    amenity.append(amenity_record)            
-            
-        if amenity: # if list not empty
-            amenity = dict(x for x in amenity.items() if all(x))
+                # Delete keys with no value
+                amenity_record = dict(x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record)            
             
         return amenity
 
