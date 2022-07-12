@@ -277,9 +277,11 @@ def get_amenities(bbox_coord):
                     "name": node.tags.get("name"),
                     "cat": node.tags.get("amenity"),
                 }
-            # Delete key if value is empty
-            amenity_record = dict(x for x in amenity_record.items() if all(x))
-            amenity.append(amenity_record)
+                amenity.append(amenity_record)
+            
+        if amenity_record: # if list not empty
+            amenity = dict(x for x in amenity_record.items() if all(x))
+            
         return amenity
 
 
