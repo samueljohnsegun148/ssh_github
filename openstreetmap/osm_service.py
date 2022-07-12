@@ -279,8 +279,8 @@ def get_amenities(bbox_coord):
                 }
                 amenity.append(amenity_record)
             
-        if amenity_record: # if list not empty
-            amenity = dict(x for x in amenity_record.items() if all(x))
+        if amenity: # if list not empty
+            amenity = dict(x for x in amenity.items() if all(x))
             
         return amenity
 
