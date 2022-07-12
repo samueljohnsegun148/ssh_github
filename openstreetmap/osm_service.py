@@ -243,10 +243,28 @@ def get_amenities(bbox_coord):
     lat_min, lon_min = bbox_coord[0], bbox_coord[1]
     lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     try:
-        amenities = api.query(
+        amenity_node = api.query(
             f"""
         
         node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        
+        (._;>;);
+        out body;
+        """
+        )
+        amenity_way = api.query(
+            f"""
+        
+        way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        
+        (._;>;);
+        out body;
+        """
+        )
+        amenity_rel = api.query(
+            f"""
+        
+        relation({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         
         (._;>;);
         out body;
@@ -267,16 +285,35 @@ def get_amenities(bbox_coord):
     else:
         # Filter the amenity tags to the basic useful ones
         amenity = []
-        for node in amenities:
-            if node.tags.get("amenity") is not None:
-                amenity_record = {
-                    "id": int(node.id),
-                    "lat": float(node.lat),
-                    "lon": float(node.lon),
-                    "name": node.tags.get("name"),
-                    "cat": node.tags.get("amenity"),
-                }
-                amenity.append(amenity_record)
+        if amenity_node:
+            for node in amenity_node.nodes:
+                if node.tags.get("amenity") is not None:
+                    amenity_record = {
+                        "id": int(node.id),
+                        "lat": float(node.lat),
+                        "lon": float(node.lon),
+                        "name": node.tags.get("name"),
+                        "cat": node.tags.get("amenity"),
+                    }
+                    amenity.append(amenity_record)
+        if amenity_way:
+            for way in amenity_way.ways:
+                if way.tags.get("amenity") is not None:
+                    amenity_record = {
+                        "id": int(way.id),
+                        "name": way.tags.get("name"),
+                        "cat": way.tags.get("amenity"),
+                    }
+                    amenity.append(amenity_record)
+        if amenity_rel:
+            for relation in amenity_rel.relations:
+                if relation.tags.get("amenity") is not None:
+                    amenity_record = {
+                        "id": int(relation.id),
+                        "name": relation.tags.get("name"),
+                        "cat": relation.tags.get("amenity"),
+                    }
+                    amenity.append(amenity_record)            
             
         if amenity: # if list not empty
             amenity = dict(x for x in amenity.items() if all(x))
