@@ -305,8 +305,8 @@ def get_amenities(bbox_coord):
                     wy =[way]
                     amenity_record = {
                         "id": int(way.id),
-                        "lat": float(wy["center"]["lat"]),
-                        "lon": float(wy["center"]["lon"]),
+                        "lat": float(wy[0]["center"]["lat"]),
+                        "lon": float(wy[0]["center"]["lon"]),
                         "name": way.tags.get("name"),
                         "cat": way.tags.get("amenity"),
                     }
@@ -320,8 +320,8 @@ def get_amenities(bbox_coord):
                     rel=[relation]
                     amenity_record = {
                         "id": int(relation.id),
-                        "lat": float(rel["center"]["lat"]),
-                        "lon": float(rel["center"]["lon"]),
+                        "lat": float(wy[0]["center"]["lat"]),
+                        "lon": float(wy[0]["center"]["lon"]),
                         "name": relation.tags.get("name"),
                         "cat": relation.tags.get("amenity"),
                     }
