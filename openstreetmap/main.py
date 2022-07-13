@@ -131,8 +131,7 @@ def get_map_data():
     if validated is not None:
         return validated
     logging.debug("Sending response")
-    y={"bbox":bbox_coordinates}
-    return y
+    return response
 
 
 if __name__ == "__main__":
