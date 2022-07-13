@@ -257,7 +257,7 @@ def get_amenities(bbox_coord):
         
         way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         
-        (._;>;);
+       
         out center;
         """
         )
@@ -266,7 +266,7 @@ def get_amenities(bbox_coord):
         
         relation({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         
-        (._;>;);
+        
         out center;
         """
         )
@@ -304,8 +304,8 @@ def get_amenities(bbox_coord):
                 if way.tags.get("amenity") is not None:
                     amenity_record = {
                         "id": int(way.id),
-                        "lat": float(way.lat),
-                        "lon": float(way.lon),
+                        "lat": float(way.center),
+                        "lon": float(way.center),
                         "name": way.tags.get("name"),
                         "cat": way.tags.get("amenity"),
                     }
@@ -318,8 +318,8 @@ def get_amenities(bbox_coord):
                 if relation.tags.get("amenity") is not None:
                     amenity_record = {
                         "id": int(relation.id),
-                        "lat": float(way.lat),
-                        "lon": float(way.lon),
+                        "lat": float(way.center),
+                        "lon": float(way.center),
                         "name": relation.tags.get("name"),
                         "cat": relation.tags.get("amenity"),
                     }
