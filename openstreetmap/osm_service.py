@@ -302,10 +302,11 @@ def get_amenities(bbox_coord):
         if amenity_way:
             for way in amenity_way.ways:
                 if way.tags.get("amenity") is not None:
+                    wy =[way]
                     amenity_record = {
                         "id": int(way.id),
-                        "lat": float(way["center"]["lat"]),
-                        "lon": float(way["center"]["lon"]),
+                        "lat": float(wy["center"]["lat"]),
+                        "lon": float(wy["center"]["lon"]),
                         "name": way.tags.get("name"),
                         "cat": way.tags.get("amenity"),
                     }
@@ -316,10 +317,11 @@ def get_amenities(bbox_coord):
         if amenity_rel:
             for relation in amenity_rel.relations:
                 if relation.tags.get("amenity") is not None:
+                    rel=[relation]
                     amenity_record = {
                         "id": int(relation.id),
-                        "lat": float(way["center"]["lat"]),
-                        "lon": float(way["center"]["lon"]),
+                        "lat": float(rel["center"]["lat"]),
+                        "lon": float(rel["center"]["lon"]),
                         "name": relation.tags.get("name"),
                         "cat": relation.tags.get("amenity"),
                     }
