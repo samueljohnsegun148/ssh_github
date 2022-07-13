@@ -243,33 +243,17 @@ def get_amenities(bbox_coord):
     lat_min, lon_min = bbox_coord[0], bbox_coord[1]
     lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     try:
-        amenity_node = api.query(
+        amenities = api.query(
             f"""
         
-        node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        
-        (._;>;);
-        out body;
-        """
-        )
-        amenity_way = api.query(
-            f"""
-        
+        (node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        
-       
+        rel({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        );
         out center;
         """
         )
-        amenity_rel = api.query(
-            f"""
         
-        relation({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        
-        
-        out center;
-        """
-        )
     except OverpassGatewayTimeout:
         error = 'Overpas GatewayTimeout: High server load. Retry again'
         logging.error(error)
@@ -285,8 +269,8 @@ def get_amenities(bbox_coord):
     else:
         # Filter the amenity tags to the basic useful ones
         amenity = []
-        if amenity_node:
-            for node in amenity_node.nodes:
+        if amenities.nodes:
+            for node in amenities.nodes:
                 if node.tags.get("amenity") is not None:
                     amenity_record = {
                         "id": int(node.id),
@@ -299,14 +283,13 @@ def get_amenities(bbox_coord):
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
                 amenity.append(amenity_record) 
                 
-        if amenity_way:
-            for way in amenity_way.ways:
+        if amenities.ways:
+            for way in amenities.ways:
                 if way.tags.get("amenity") is not None:
-                    wy =[way]
                     amenity_record = {
                         "id": int(way.id),
-                        "lat": float(wy[0]["center"]["lat"]),
-                        "lon": float(wy[0]["center"]["lon"]),
+                        "lat": float(way.center_lat),
+                        "lon": float(way.center_lon),
                         "name": way.tags.get("name"),
                         "cat": way.tags.get("amenity"),
                     }
@@ -314,16 +297,15 @@ def get_amenities(bbox_coord):
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
                 amenity.append(amenity_record) 
 
-        if amenity_rel:
-            for relation in amenity_rel.relations:
-                if relation.tags.get("amenity") is not None:
-                    rel=[relation]
+        if amenities.relations:
+            for rel in amenities.relations:
+                if rel.tags.get("amenity") is not None:
                     amenity_record = {
-                        "id": int(relation.id),
-                        "lat": float(wy[0]["center"]["lat"]),
-                        "lon": float(wy[0]["center"]["lon"]),
-                        "name": relation.tags.get("name"),
-                        "cat": relation.tags.get("amenity"),
+                        "id": int(rel.id),
+                        "lat": float(rel.center_lat),
+                        "lon": float(rel.center_lon),
+                        "name": rel.tags.get("name"),
+                        "cat": rel.tags.get("amenity"),
                     }
                 # Delete keys with no value
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
