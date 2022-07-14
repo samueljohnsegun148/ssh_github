@@ -246,7 +246,7 @@ def get_amenities(bbox_coord):
         amenities = api.query(
             f"""
         
-        (rel({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        (way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         
         );
         out center;
@@ -280,7 +280,7 @@ def get_amenities(bbox_coord):
                     }
                 # Delete keys with no value
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record) 
+                amenity.append(amenity_record) """
                 
         if amenities.ways:
             for way in amenities.ways:
@@ -294,9 +294,9 @@ def get_amenities(bbox_coord):
                     }
                 # Delete keys with no value
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record) """
+                amenity.append(amenity_record) 
 
-        if amenities.relations:
+        """if amenities.relations:
             for rel in amenities.relations:
                 if rel.tags.get("amenity") is not None:
                     amenity_record = {
@@ -308,7 +308,7 @@ def get_amenities(bbox_coord):
                     }
                 # Delete keys with no value
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record)            
+                amenity.append(amenity_record) """           
             
         return amenity
 
