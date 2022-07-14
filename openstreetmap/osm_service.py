@@ -44,7 +44,9 @@ def get_streets(bbox_coord):
             url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter?")
         OSM_data = api.query(
             f"""
-        way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
+        
+        way(around:{100},{lat},{lon})[highway];
+
         (._;>;);
         out body;
         """
