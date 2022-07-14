@@ -112,7 +112,8 @@ def process_streets_data(OSM_data):
                 }
                 # Fetch as many tags as possible
                 for key, value in way.tags.items():
-                    if value !=  way.tags.get("name") and value != way.tags.get("highway"):
+                    if value != way.tags.get(
+                            "name") and value != way.tags.get("highway"):
                         if key not in way_object:
                             way_object[key] = value
                 way_object["nodes"] = node_list
@@ -289,7 +290,8 @@ def get_amenities(bbox_coord):
                     }
                     # Fetch as many tags possible
                     for key, value in node.tags.items():
-                        if value !=  node.tags.get("name") and value != node.tags.get("amenity"):
+                        if value != node.tags.get(
+                                "name") and value != node.tags.get("amenity"):
                             if key not in amenity_record:
                                 amenity_record[key] = value
                 # Delete keys with no value
@@ -309,7 +311,8 @@ def get_amenities(bbox_coord):
                     }
                     # Fetch as many tags possible
                     for key, value in way.tags.items():
-                        if value !=  way.tags.get("name") and value != way.tags.get("amenity"):
+                        if value != way.tags.get(
+                                "name") and value != way.tags.get("amenity"):
                             if key not in amenity_record:
                                 amenity_record[key] = value
                 # Delete keys with no value
@@ -329,7 +332,8 @@ def get_amenities(bbox_coord):
                     }
                     # Fetch as many tags possible
                     for key, value in rel.tags.items():
-                        if value !=  rel.tags.get("name") and value != rel.tags.get("amenity"):
+                        if value != rel.tags.get(
+                                "name") and value != rel.tags.get("amenity"):
                             if key not in amenity_record:
                                 amenity_record[key] = value
                 # Delete keys with no value
