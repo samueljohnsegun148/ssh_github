@@ -36,8 +36,8 @@ def create_bbox_coordinates(distance, lat, lon):
 
 
 def get_streets(lat,lon):
-    lat_min, lon_min = bbox_coord[0], bbox_coord[1]
-    lat_max, lon_max = bbox_coord[2], bbox_coord[3]
+    #lat_min, lon_min = bbox_coord[0], bbox_coord[1]
+    #lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     """ fetch all ways and nodes """
     try:
         api = overpy.Overpass(
