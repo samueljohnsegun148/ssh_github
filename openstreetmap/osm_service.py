@@ -44,9 +44,7 @@ def get_streets(bbox_coord):
     try:
         OSM_data = api.query(
             f"""
-        (way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
-        rel({lat_min},{lon_min},{lat_max},{lon_max})[highway];
-        );
+        way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
         
         out body;
         """
