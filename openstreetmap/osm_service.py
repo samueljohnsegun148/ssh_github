@@ -113,9 +113,9 @@ def process_streets_data(OSM_data):
                 for key, value in way.tags.items():
                     if value != int(way.id) and way.tags.get(
                             "name") and way.tags.get("highway"):
-                        if key not in way_object:
-                            way_object[key] = value
-                way_object["nodes"] = node_list
+                            if key not in way_object:
+                                way_object[key] = value
+                                way_object["nodes"] = node_list
 
                 # Delete key if value is empty
                 way_object = dict(x for x in way_object.items() if all(x))
