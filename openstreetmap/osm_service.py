@@ -39,13 +39,13 @@ def get_streets(bbox_coord):
     lat_min, lon_min = bbox_coord[0], bbox_coord[1]
     lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     """ fetch all ways and nodes """
-    api = overpy.Overpass(
-        url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter?")
     try:
+        api = overpy.Overpass(
+            url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter?")
         OSM_data = api.query(
             f"""
         way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
-        
+        (._;>;);
         out body;
         """
         )
