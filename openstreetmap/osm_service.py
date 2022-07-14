@@ -35,18 +35,17 @@ def create_bbox_coordinates(distance, lat, lon):
     return bbox_coordinates
 
 
-def get_streets(lat,lon):
-    #lat_min, lon_min = bbox_coord[0], bbox_coord[1]
-    #lat_max, lon_max = bbox_coord[2], bbox_coord[3]
+def get_streets(bbox_coord):
+    lat_min, lon_min = bbox_coord[0], bbox_coord[1]
+    lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     """ fetch all ways and nodes """
     try:
         api = overpy.Overpass(
             url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter?")
         OSM_data = api.query(
             f"""
+        way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
         
-        way(around:{100},{lat},{lon})[highway];
-
         (._;>;);
         out body;
         """
