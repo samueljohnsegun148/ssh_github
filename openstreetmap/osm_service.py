@@ -44,8 +44,10 @@ def get_streets(bbox_coord):
     try:
         OSM_data = api.query(
             f"""
-        way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
-        (._;>;);
+        (way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
+        rel({lat_min},{lon_min},{lat_max},{lon_max})[highway];
+        );
+        
         out body;
         """
         )
@@ -246,8 +248,9 @@ def get_amenities(bbox_coord):
         amenities = api.query(
             f"""
         
-        (way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        
+        (node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+        rel({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         );
         out center;
         """
@@ -268,7 +271,7 @@ def get_amenities(bbox_coord):
     else:
         # Filter the amenity tags to the basic useful ones
         amenity = []
-        """if amenities.nodes:
+        if amenities.nodes:
             for node in amenities.nodes:
                 if node.tags.get("amenity") is not None:
                     amenity_record = {
@@ -280,7 +283,7 @@ def get_amenities(bbox_coord):
                     }
                 # Delete keys with no value
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record) """
+                amenity.append(amenity_record) 
                 
         if amenities.ways:
             for way in amenities.ways:
@@ -296,7 +299,7 @@ def get_amenities(bbox_coord):
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
                 amenity.append(amenity_record) 
 
-        """if amenities.relations:
+        if amenities.relations:
             for rel in amenities.relations:
                 if rel.tags.get("amenity") is not None:
                     amenity_record = {
@@ -308,7 +311,7 @@ def get_amenities(bbox_coord):
                     }
                 # Delete keys with no value
                 amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record) """           
+                amenity.append(amenity_record)            
             
         return amenity
 
