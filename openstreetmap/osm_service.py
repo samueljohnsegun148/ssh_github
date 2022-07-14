@@ -109,6 +109,8 @@ def process_streets_data(OSM_data):
                     "maxspeed": way.tags.get("maxspeed"),
                     "lanes": lanes,
                     "nodes": node_list,
+                    "other_tags":way.tags,
+
                 }
                 # Delete key if value is empty
                 way_object = dict(x for x in way_object.items() if all(x))
