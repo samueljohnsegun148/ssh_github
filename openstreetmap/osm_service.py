@@ -112,6 +112,7 @@ def process_streets_data(OSM_data):
                 }
                 for key, value in way.tags.items():
                     if value !=  way.tags.get("name"):
+                        if value != way.tags.get("highway"):
                             if key not in way_object:
                                 way_object[key] = value
                 way_object["nodes"] = node_list
