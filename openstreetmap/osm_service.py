@@ -45,7 +45,7 @@ def get_streets(bbox_coord):
         OSM_data = api.query(
             f"""
         way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
-        
+
         (._;>;);
         out body;
         """
@@ -111,11 +111,12 @@ def process_streets_data(OSM_data):
 
                 }
                 for key, value in way.tags.items():
-                    if key != "street_id" or street_name or street_type:
+                    if value != int(way.id) or way.tags.get(
+                            "name") or way.tags("highway"):
                         if key not in way_object:
                             way_object[key] = value
                 way_object["nodes"] = node_list
-  
+
                 # Delete key if value is empty
                 way_object = dict(x for x in way_object.items() if all(x))
                 processed_OSM_data.append(way_object)
@@ -252,7 +253,7 @@ def get_amenities(bbox_coord):
     try:
         amenities = api.query(
             f"""
-        
+
         (node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
         rel({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
@@ -260,7 +261,7 @@ def get_amenities(bbox_coord):
         out center;
         """
         )
-        
+
     except OverpassGatewayTimeout:
         error = 'Overpas GatewayTimeout: High server load. Retry again'
         logging.error(error)
@@ -287,9 +288,10 @@ def get_amenities(bbox_coord):
                         "cat": node.tags.get("amenity"),
                     }
                 # Delete keys with no value
-                amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record) 
-                
+                amenity_record = dict(
+                    x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record)
+
         if amenities.ways:
             for way in amenities.ways:
                 if way.tags.get("amenity") is not None:
@@ -301,8 +303,9 @@ def get_amenities(bbox_coord):
                         "cat": way.tags.get("amenity"),
                     }
                 # Delete keys with no value
-                amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record) 
+                amenity_record = dict(
+                    x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record)
 
         if amenities.relations:
             for rel in amenities.relations:
@@ -315,9 +318,10 @@ def get_amenities(bbox_coord):
                         "cat": rel.tags.get("amenity"),
                     }
                 # Delete keys with no value
-                amenity_record = dict(x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record)            
-            
+                amenity_record = dict(
+                    x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record)
+
         return amenity
 
 
