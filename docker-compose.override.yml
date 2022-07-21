@@ -1,7 +1,6 @@
  version: "3"
-
- 
- openstreetmap:
+ services:
+      openstreetmap:
         build:
             context: .
             dockerfile: ./Dockerfile
@@ -9,3 +8,6 @@
         labels:
             ca.mcgill.a11y.image.preprocessor: 3
             ca.mcgill.a11y.image.port: 8080
+
+
+ 
