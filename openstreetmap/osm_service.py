@@ -47,7 +47,7 @@ def get_streets(bbox_coord):
         way({lat_min},{lon_min},{lat_max},{lon_max})[highway~"^(primary|tertiary|secondary|track|path|crossing|pedestrian|living_street|residential|service|footway)$"];
 
         (._;>;);
-        out body;
+        out geom;
         """
         )
     except OverpassGatewayTimeout:
