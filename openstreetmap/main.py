@@ -94,35 +94,35 @@ def get_map_data():
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-                "data": {"points_of_interest": POIs, "streets": response}
+                "data": {"Header_Info": header_info,"points_of_interest": POIs, "streets": response}
             }
         elif amenity is not None:
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-                "data": {"points_of_interest": amenity}
+                "data": {"Header_Info": header_info, "points_of_interest": amenity}
             }
         else:
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-                "data": []
+                "data": {"Header_Info": header_info}
             }
     elif OSM_data is None and amenity is not None:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
             "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-            "data": {"points_of_interest": amenity}
+            "data": {"Header_Info": header_info, "points_of_interest": amenity}
         }
     else:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
             "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-            "data": []
+            "data": {"Header_Info": header_info}
         }
     validated = validate(
         schema=schema,
