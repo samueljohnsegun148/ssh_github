@@ -325,13 +325,13 @@ def get_amenities(bbox_coord):
                         "cat": node.tags.get("amenity"),
                     }
                     # Fetch as many tags possible
-                    """
+                    
                     for key, value in node.tags.items():
                         if value != node.tags.get(
                                 "name") and value != node.tags.get("amenity"):
                             if key not in amenity_record:
                                 amenity_record[key] = value
-                    """
+                    
                 # Delete keys with no value
                 amenity_record = dict(
                     x for x in amenity_record.items() if all(x))
