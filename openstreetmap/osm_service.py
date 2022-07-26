@@ -44,7 +44,7 @@ def get_streets(bbox_coord):
             url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter?")
         OSM_data = api.query(
             f"""
-        way({lat_min},{lon_min},{lat_max},{lon_max})[highway~"^(primary|tertiary|secondary|track|path|crossing|pedestrian|living_street|residential|service|footway)$"];
+        way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
 
         (._;>;);
         out geom;
@@ -119,7 +119,6 @@ def process_streets_data(OSM_data):
                             way_object[key] = value
                             """
                 way_object["nodes"] = node_list
-                
 
                 # Delete key if value is empty
                 way_object = dict(x for x in way_object.items() if all(x))
@@ -254,18 +253,17 @@ def allot_intersection(processed_OSM_data, inters_rec_up
                             if key1 in X and key1 in Y:
                                 nm1 = X["street_name"]
                                 nm2 = Y["street_name"]
-                                # f["name"] = f"{nm1}{id1} intersects {nm2}{id2}"
                                 f["name"] = f"{nm1} intersecting {nm2}"
                             elif key1 not in X and key1 in Y:
                                 nm2 = Y["street_name"]
-                                if key2 in X: # Use street type if noname
+                                if key2 in X:  # Use street type if noname
                                     stp = X["street_type"]
                                     f["name"] = f"{stp} intersecting {nm2}"
                                 else:
-                                    f["name"] = f"{id1} intersecting {nm2}"                               
+                                    f["name"] = f"{id1} intersecting {nm2}"
                             elif key1 in X and key1 not in Y:
                                 nm1 = X["street_name"]
-                                if key2 in Y: # Use street type if noname
+                                if key2 in Y:  # Use street type if noname
                                     stp = Y["street_type"]
                                     f["name"] = f"{nm1} intersecting {stp}"
                                 else:
@@ -276,7 +274,7 @@ def allot_intersection(processed_OSM_data, inters_rec_up
                                     stp2 = Y["street_type"]
                                     f["name"] = f"{stp1} intersecting {stp2}"
                                 else:
-                                    f["name"] = f"{id1} intersecting {id2}"                  
+                                    f["name"] = f"{id1} intersecting {id2}"
     return processed_OSM_data1
 
 
@@ -325,13 +323,13 @@ def get_amenities(bbox_coord):
                         "cat": node.tags.get("amenity"),
                     }
                     # Fetch as many tags possible
-                    
+
                     for key, value in node.tags.items():
                         if value != node.tags.get(
                                 "name") and value != node.tags.get("amenity"):
                             if key not in amenity_record:
                                 amenity_record[key] = value
-                    
+
                 # Delete keys with no value
                 amenity_record = dict(
                     x for x in amenity_record.items() if all(x))
@@ -511,7 +509,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
         for j in range(len(processed_OSM_data2)):
             # Use the size of their nodes to rank them
             nodes1 = len(processed_OSM_data2[i]["nodes"])
-            nodes2= len(processed_OSM_data2[j]["nodes"])
+            nodes2 = len(processed_OSM_data2[j]["nodes"])
             if nodes1 > nodes2:
                 street = processed_OSM_data2[i]
                 processed_OSM_data2[i] = processed_OSM_data2[j]

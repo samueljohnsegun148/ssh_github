@@ -74,7 +74,9 @@ def get_map_data():
     distance: float = 200
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
-    header_info = { "longitude": f" From {bbox_coordinates[1]} To {bbox_coordinates[3]} ", "latitude":  f" From {bbox_coordinates[0]} To {bbox_coordinates[2]} "}
+    header_info = {
+        "longitude": f" From {bbox_coordinates[1]} To {bbox_coordinates[3]} ",
+        "latitude": f" From {bbox_coordinates[0]} To {bbox_coordinates[2]} "}
     OSM_data = get_streets(bbox_coordinates)
     request_uuid = content["request_uuid"]
     amenity = get_amenities(bbox_coordinates)
@@ -94,15 +96,18 @@ def get_map_data():
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-                "data": {"Header_Info": header_info,"points_of_interest": POIs, "streets": response}
-            }
+                "data": {
+                    "Header_Info": header_info,
+                    "points_of_interest": POIs,
+                    "streets": response}}
         elif amenity is not None:
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-                "data": {"Header_Info": header_info, "points_of_interest": amenity}
-            }
+                "data": {
+                    "Header_Info": header_info,
+                    "points_of_interest": amenity}}
         else:
             response = {
                 "request_uuid": request_uuid,
