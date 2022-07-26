@@ -504,7 +504,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                                             nodes[node]["POIs_iD"] = merged_id
                                         else:
                                             nodes[node]["POIs_ID"] = existingid
-    processed_OSM_data2.sort(key=lambda x: x.nodes, reverse=True)
+
     # Arrange street segments in order of lengths (descending order)
     for i in range(len(processed_OSM_data2)):
         j = i + 1
