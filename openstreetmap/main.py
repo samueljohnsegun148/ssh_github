@@ -74,7 +74,7 @@ def get_map_data():
     distance: float = 200
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
-    header_info = { "longitude": [bbox_coordinates[1], bbox_coordinates[3]], "latitude":[bbox_coordinates[0],bbox_coordinates[2]]}
+    header_info = { "longitude": f" From {bbox_coordinates[1]} To {bbox_coordinates[3]}, "latitude": From {bbox_coordinates[0]} To {bbox_coordinates[2]}}"
     OSM_data = get_streets(bbox_coordinates)
     request_uuid = content["request_uuid"]
     amenity = get_amenities(bbox_coordinates)
