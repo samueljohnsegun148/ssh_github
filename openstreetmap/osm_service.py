@@ -255,28 +255,28 @@ def allot_intersection(processed_OSM_data, inters_rec_up
                                 nm1 = X["street_name"]
                                 nm2 = Y["street_name"]
                                 # f["name"] = f"{nm1}{id1} intersects {nm2}{id2}"
-                                f["name"] = f"{nm1} intersects {nm2}"
+                                f["name"] = f"{nm1} intersecting {nm2}"
                             elif key1 not in X and key1 in Y:
                                 nm2 = Y["street_name"]
                                 if key2 in X: # Use street type if noname
                                     stp = X["street_type"]
-                                    f["name"] = f"{stp} intersects {nm2}"
+                                    f["name"] = f"{stp} intersecting {nm2}"
                                 else:
-                                    f["name"] = f"{id1} intersects {nm2}"                               
+                                    f["name"] = f"{id1} intersecting {nm2}"                               
                             elif key1 in X and key1 not in Y:
                                 nm1 = X["street_name"]
                                 if key2 in Y: # Use street type if noname
                                     stp = Y["street_type"]
-                                    f["name"] = f"{nm1} intersects {stp}"
+                                    f["name"] = f"{nm1} intersecting {stp}"
                                 else:
-                                    f["name"] = f"{nm1} intersects {id2}"
+                                    f["name"] = f"{nm1} intersecting {id2}"
                             else:
                                 if key2 in X and key2 in Y:
                                     stp1 = X["street_type"]
                                     stp2 = Y["street_type"]
-                                    f["name"] = f"{stp1} intersects {stp2}"
+                                    f["name"] = f"{stp1} intersecting {stp2}"
                                 else:
-                                    f["name"] = f"{id1} intersects {id2}"                  
+                                    f["name"] = f"{id1} intersecting {id2}"                  
     return processed_OSM_data1
 
 
