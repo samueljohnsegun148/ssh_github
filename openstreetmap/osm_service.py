@@ -151,6 +151,12 @@ def extract_street(processed_OSM_data):  # extract two streets
                         "street_name": processed_OSM_data[i]["street_name"],
                         "intersection_nodes": intersecting_points,
                     }
+                elif "street_type" in processed_OSM_data[i]:
+                    street_object = {
+                        "street_id": processed_OSM_data[i]["street_id"],
+                        "street_type": processed_OSM_data[i]["street_type"],
+                        "intersection_nodes": intersecting_points,
+                    }
                 else:
                     street_object = {
                         "street_id": processed_OSM_data[i]["street_id"],
@@ -161,6 +167,12 @@ def extract_street(processed_OSM_data):  # extract two streets
                     street_object = {
                         "street_id": processed_OSM_data[j]["street_id"],
                         "street_name": processed_OSM_data[j]["street_name"],
+                        "intersection_nodes": intersecting_points,
+                    }
+                elif "street_type" in processed_OSM_data[i]:
+                    street_object = {
+                        "street_id": processed_OSM_data[i]["street_id"],
+                        "street_type": processed_OSM_data[i]["street_type"],
                         "intersection_nodes": intersecting_points,
                     }
                 else:
@@ -179,6 +191,12 @@ def extract_street(processed_OSM_data):  # extract two streets
                 record = {
                     "street_id": obj["street_id"],
                     "street_name": obj["street_name"],
+                    "intersection_nodes": obj["intersection_nodes"],
+                }
+            elif "street_type" in obj:
+                record = {
+                    "street_id": obj["street_id"],
+                    "street_type": obj["street_type"],
                     "intersection_nodes": obj["intersection_nodes"],
                 }
             else:
@@ -227,23 +245,38 @@ def allot_intersection(processed_OSM_data, inters_rec_up
                         if nodes[i] == intersection_nodes[items]:
                             nodes[i]["cat"] = "intersection"
                             f = nodes[i]
-                            key = "street_name"
+                            key1 = "street_name"
+                            key2 = "street_type"
                             X = processed_OSM_data1[obj]
                             Y = inters[objs]
                             # Check if street_name key is empty or not to
                             # format the output
-                            if key in X and key in Y:
+                            if key1 in X and key1 in Y:
                                 nm1 = X["street_name"]
                                 nm2 = Y["street_name"]
-                                f["name"] = f"{nm1}{id1} intersects {nm2}{id2}"
-                            elif key not in X and key in Y:
+                                # f["name"] = f"{nm1}{id1} intersects {nm2}{id2}"
+                                f["name"] = f"{nm1} intersects {nm2}"
+                            elif key1 not in X and key1 in Y:
                                 nm2 = Y["street_name"]
-                                f["name"] = f"{id1} intersects {nm2}{id2}"
-                            elif key in X and key not in Y:
+                                if key2 in X: # Use street type if noname
+                                    stp = X["street_type"]
+                                    f["name"] = f"{stp} intersects {nm2}"
+                                else:
+                                    f["name"] = f"{id1} intersects {nm2}"                               
+                            elif key1 in X and key1 not in Y:
                                 nm1 = X["street_name"]
-                                f["name"] = f"{nm1}{id1} intersects {id2}"
+                                if key2 in Y: # Use street type if noname
+                                    stp = Y["street_type"]
+                                    f["name"] = f"{nm1} intersects {stp}"
+                                else:
+                                    f["name"] = f"{nm1} intersects {id2}"
                             else:
-                                f["name"] = f"{id1} intersects {id2}"
+                                if key2 in X and key2 in Y:
+                                    stp1 = X["street_type"]
+                                    stp2 = Y["street_type"]
+                                    f["name"] = f"{stp1} intersects {stp2}"
+                                else:
+                                    f["name"] = f"{id1} intersects {id2}"                  
     return processed_OSM_data1
 
 
