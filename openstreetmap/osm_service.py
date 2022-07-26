@@ -505,8 +505,17 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                                         else:
                                             nodes[node]["POIs_ID"] = existingid
     processed_OSM_data2.sort(key=lambda x: x.nodes, reverse=True)
-    
-        
+    # Arrange street segments in order of lengths (descending order)
+    for i in range(len(processed_OSM_data2)):
+        j = i + 1
+        for j in range(len(processed_OSM_data2)):
+            # Use the size of their nodes to rank them
+            nodes1 = len(processed_OSM_data2[i]["nodes"])
+            nodes2= len(processed_OSM_data2[j]["nodes"])
+            if nodes1 > nodes2:
+                street = processed_OSM_data2[i]
+                processed_OSM_data2[i] = processed_OSM_data2[j]
+                processed_OSM_data2[j] = street
     return processed_OSM_data2
 
 
