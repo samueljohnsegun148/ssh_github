@@ -72,7 +72,9 @@ def get_map_data():
     latitude = coords["latitude"]
     longitude = coords["longitude"]
     distance: float = 200
+    time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
+    header_info = { "longitude": [bbox_coordinates[1], bbox_coordinates[3]], "latitude":[bbox_coordinates[0],bbox_coordinates[2]]}
     OSM_data = get_streets(bbox_coordinates)
     request_uuid = content["request_uuid"]
     amenity = get_amenities(bbox_coordinates)
@@ -90,35 +92,35 @@ def get_map_data():
             response = OSM_preprocessor(processed_OSM_data, POIs, amenity)
             response = {
                 "request_uuid": request_uuid,
-                "timestamp": int(get_timestamp()),
+                "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
                 "data": {"points_of_interest": POIs, "streets": response}
             }
         elif amenity is not None:
             response = {
                 "request_uuid": request_uuid,
-                "timestamp": int(get_timestamp()),
+                "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
                 "data": {"points_of_interest": amenity}
             }
         else:
             response = {
                 "request_uuid": request_uuid,
-                "timestamp": int(get_timestamp()),
+                "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
                 "data": []
             }
     elif OSM_data is None and amenity is not None:
         response = {
             "request_uuid": request_uuid,
-            "timestamp": int(get_timestamp()),
+            "timestamp": time_stamp,
             "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
             "data": {"points_of_interest": amenity}
         }
     else:
         response = {
             "request_uuid": request_uuid,
-            "timestamp": int(get_timestamp()),
+            "timestamp": time_stamp,
             "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
             "data": []
         }
