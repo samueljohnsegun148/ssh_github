@@ -504,7 +504,8 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                                             nodes[node]["POIs_iD"] = merged_id
                                         else:
                                             nodes[node]["POIs_ID"] = existingid
-
+    processed_OSM_data2.sort(reverse=True)
+        
     return processed_OSM_data2
 
 
