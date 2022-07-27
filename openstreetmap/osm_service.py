@@ -5,6 +5,7 @@ from math import radians, degrees, cos
 from datetime import datetime
 from flask import jsonify
 import jsonschema
+from random import randint
 import logging
 from overpy.exception import (
     OverpassTooManyRequests,
@@ -504,7 +505,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                                             nodes[node]["POIs_ID"] = existingid
 
     # Arrange street segments in order of lengths (descending order)
-    for i in range(len(processed_OSM_data2)):
+    """for i in range(len(processed_OSM_data2)):
         j = i + 1
         for j in range(len(processed_OSM_data2)):
             # Use the size of their nodes to rank them
@@ -513,8 +514,32 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
             if nodes1 > nodes2:
                 street = processed_OSM_data2[i]
                 processed_OSM_data2[i] = processed_OSM_data2[j]
-                processed_OSM_data2[j] = street
+                processed_OSM_data2[j] = street"""
+    processed_OSM_data2 = quickSort(processed_OSM_data2)
     return processed_OSM_data2
+
+
+def quickSort(L, ascending=False):
+    if len(L) <= 1:
+        return L
+    smaller, equal, larger = [], [], []
+    pivot = len(L[randint(0, len(L) - 1)]['nodes'])
+    for x in L:
+        if len(x['nodes']) < pivot:
+            smaller.append(x)
+        elif len(x['nodes']) == pivot:
+            equal.append(x)
+        else:
+            larger.append(x)
+
+    larger = quickSort(larger, ascending=ascending)
+    smaller = quickSort(smaller, ascending=ascending)
+
+    if ascending:
+        final = smaller + equal + larger
+    else:
+        final = larger + equal + smaller
+    return final
 
 
 def validate(schema, data, resolver, json_message, error_code):
