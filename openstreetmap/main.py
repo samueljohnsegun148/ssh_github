@@ -71,7 +71,7 @@ def get_map_data():
 
     latitude = coords["latitude"]
     longitude = coords["longitude"]
-    distance: float = 100
+    distance: float = 200
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
     header_info = {
