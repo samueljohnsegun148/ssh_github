@@ -33,7 +33,7 @@ def create_bbox_coordinates(distance, lat, lon):
     lat_min, lon_min = degrees(lat_min), degrees(lon_min)
     lat_max, lon_max = degrees(lat_max), degrees(lon_max)
     bbox_coordinates = [lat_min, lon_min, lat_max, lon_max]
-    bbox_coordinates =[-73.58438,45.49169,-73.58014,45.49353]
+    bbox_coordinates =[-73.58490,45.49155,-73.58004,45.49367]
     return bbox_coordinates
 
 
