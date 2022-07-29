@@ -557,10 +557,10 @@ def quickSort(array, low, high):
     pi = partition(array, low, high)
 
     # recursive call on the left of pivot
-    quickSort(array, low, pi - 1)
+    quickSort(array, pi - 1, low)
 
     # recursive call on the right of pivot
-    quickSort(array, pi + 1, high)
+    quickSort(array, high, pi + 1)
 
 
 
