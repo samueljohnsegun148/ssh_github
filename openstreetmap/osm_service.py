@@ -515,7 +515,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                 street = processed_OSM_data2[i]
                 processed_OSM_data2[i] = processed_OSM_data2[j]
                 processed_OSM_data2[j] = street"""
-    processed_OSM_data2 = quickSort(processed_OSM_data2)
+    #processed_OSM_data2 = quickSort(processed_OSM_data2)
     size = len(processed_OSM_data2)
     quickSort(processed_OSM_data2, 0, size - 1)
     return processed_OSM_data2
