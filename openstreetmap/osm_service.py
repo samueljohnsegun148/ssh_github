@@ -525,7 +525,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
 def partition(array, low, high):
 
   # choose the rightmost element as pivot
-  pivot = len(array[high]['nodes'])
+  pivot = array[high]
 
   # pointer for greater element
   i = low - 1
@@ -533,7 +533,7 @@ def partition(array, low, high):
   # traverse through all elements
   # compare each element with pivot
   for j in range(low, high):
-    if len(array[j]['nodes']) <= pivot:
+    if array[j] >= pivot:
       # if element smaller than pivot is found
       # swap it with the greater element pointed by i
       i = i + 1
@@ -549,7 +549,7 @@ def partition(array, low, high):
 
 # function to perform quicksort
 def quickSort(array, low, high):
-  if low < high:
+  if low > high:
 
     # find pivot element such that
     # element smaller than pivot are on the left
@@ -557,10 +557,10 @@ def quickSort(array, low, high):
     pi = partition(array, low, high)
 
     # recursive call on the left of pivot
-    quickSort(array, pi - 1, low)
+    quickSort(array, low, pi - 1)
 
     # recursive call on the right of pivot
-    quickSort(array, high, pi + 1)
+    quickSort(array, pi + 1, high)
 
 
 
