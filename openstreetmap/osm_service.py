@@ -504,7 +504,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                                         else:
                                             nodes[node]["POIs_ID"] = existingid
 
-    # Arrange street segments in order of lengths (descending order)
+    # Arrange street segments in descending order
     """for i in range(len(processed_OSM_data2)):
         j = i + 1
         for j in range(len(processed_OSM_data2)):
@@ -515,79 +515,31 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                 street = processed_OSM_data2[i]
                 processed_OSM_data2[i] = processed_OSM_data2[j]
                 processed_OSM_data2[j] = street"""
-    #processed_OSM_data2 = quickSort(processed_OSM_data2)
-    size = len(processed_OSM_data2)
-    quickSort(processed_OSM_data2, 0, size - 1)
+    processed_OSM_data2 = quickSort(processed_OSM_data2)
+
     return processed_OSM_data2
-# Quick sort in Python
 
-# function to find the partition position
-def partition(array, low, high):
-
-  # choose the rightmost element as pivot
-  pivot = array[high]
-
-  # pointer for greater element
-  i = low - 1
-
-  # traverse through all elements
-  # compare each element with pivot
-  for j in range(low, high):
-    if array[j] >= pivot:
-      # if element smaller than pivot is found
-      # swap it with the greater element pointed by i
-      i = i + 1
-
-      # swapping element at i with element at j
-      (array[i], array[j]) = (array[j], array[i])
-
-  # swap the pivot element with the greater element specified by i
-  (array[i + 1], array[high]) = (array[high], array[i + 1])
-
-  # return the position from where partition is done
-  return i + 1
-
-# function to perform quicksort
-def quickSort(array, low, high):
-  if low > high:
-
-    # find pivot element such that
-    # element smaller than pivot are on the left
-    # element greater than pivot are on the right
-    pi = partition(array, low, high)
-
-    # recursive call on the left of pivot
-    quickSort(array, low, pi - 1)
-
-    # recursive call on the right of pivot
-    quickSort(array, pi + 1, high)
-
-
-
-
-
-
-def qquickSort(L, ascending=False):
-    if len(L) <= 1:
-        return L
-    smaller, equal, larger = [], [], []
-    pivot = len(L[randint(0, len(L) - 1)]['nodes'])
-    for x in L:
-        if len(x['nodes']) < pivot:
-            smaller.append(x)
-        elif len(x['nodes']) == pivot:
-            equal.append(x)
+def quickSort(array, ascending=False):
+    if len(array) <= 1:
+        return array
+    lower, median, upper = [], [], []
+    pivot = len(array[randint(0, len(array) - 1)]['nodes'])
+    for i in array:
+        if len(i['nodes']) < pivot:
+            lower.append(i)
+        elif len(i['nodes']) == pivot:
+            median.append(1)
         else:
-            larger.append(x)
+            upper.append(1)
 
-    larger = quickSort(larger, ascending=ascending)
-    smaller = quickSort(smaller, ascending=ascending)
+    upper = quickSort(upper, ascending=ascending)
+    lower = quickSort(lower, ascending=ascending)
 
     if ascending:
-        final = smaller + equal + larger
+        array = lower + median + upper
     else:
-        final = larger + equal + smaller
-    return final
+        array = upper + median + lower
+    return array
 
 
 def validate(schema, data, resolver, json_message, error_code):
