@@ -5,7 +5,6 @@ from math import radians, degrees, cos
 from datetime import datetime
 from flask import jsonify
 import jsonschema
-from random import randint
 import logging
 from overpy.exception import (
     OverpassTooManyRequests,
@@ -515,15 +514,17 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                 street = processed_OSM_data2[i]
                 processed_OSM_data2[i] = processed_OSM_data2[j]
                 processed_OSM_data2[j] = street"""
-    #processed_OSM_data2 = quickSort(processed_OSM_data2)
+    # processed_OSM_data2 = quickSort(processed_OSM_data2)
     size = len(processed_OSM_data2) - 1
     quickSort(processed_OSM_data2, 0, size)
 
     # Reverse to descending order
-    lst = []
-    for i in range (size + 1):
-        lst.append(processed_OSM_data2[size - i])
-    return lst
+    sorted_streets = []
+    for i in range(size + 1):
+        sorted_streets.append(processed_OSM_data2[size - i])
+    return sorted_streets
+
+
 """
 def quickSort(array, ascending=False):
     if len(array) <= 1:
@@ -551,32 +552,36 @@ def quickSort(array, ascending=False):
 # Quick sort in Python
 
 # function to find the pivot value
+
+
 def partition(array, low, high):
 
-  # choose the far-right element as pivot
-  pivot = len(array[high]['nodes'])
+    # choose the far-right element as pivot
+    pivot = len(array[high]['nodes'])
 
-  # pointer for greater element
-  i = low - 1
+    # pointer for greater element
+    i = low - 1
 
-  # traverse through all elements
-  # compare each with pivot value
-  for j in range(low, high):
-    if len(array[j]['nodes']) <= pivot:
-      # if element smaller than pivot is found
-      # swap it with the greater element pointed by i
-      i = i + 1
+    # traverse through all elements
+    # compare each with pivot value
+    for j in range(low, high):
+        if len(array[j]['nodes']) <= pivot:
+            # if element smaller than pivot is found
+            # swap it with the greater element pointed by i
+            i = i + 1
 
-      # swapping element at i with element at j
-      (array[i], array[j]) = (array[j], array[i])
+            # swapping element at i with element at j
+            (array[i], array[j]) = (array[j], array[i])
 
-  # swap the pivot element with the greater element specified by i
-  (array[i + 1], array[high]) = (array[high], array[i + 1])
+    # swap the pivot element with the greater element specified by i
+    (array[i + 1], array[high]) = (array[high], array[i + 1])
 
-  # return the position from where partition is done
-  return i + 1
+    # return the position from where partition is done
+    return i + 1
 
 # function to perform quicksort
+
+
 def quickSort(array, low, high):
 
     if low < high:
