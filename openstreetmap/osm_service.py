@@ -521,7 +521,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
 
     # Reverse to descending order
     lst = []
-    for i in range size:
+    for i in range (size + 1):
         lst.append(processed_OSM_data2[size - i])
     return lst
 """
