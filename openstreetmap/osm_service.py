@@ -516,14 +516,14 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                 processed_OSM_data2[i] = processed_OSM_data2[j]
                 processed_OSM_data2[j] = street"""
     #processed_OSM_data2 = quickSort(processed_OSM_data2)
-    size = len(processed_OSM_data2)
-    quickSort(processed_OSM_data2, 0, size - 1)
+    size = len(processed_OSM_data2) - 1
+    quickSort(processed_OSM_data2, 0, size)
 
     # Reverse to descending order
-    #lst = []
-    #for i in range (len(processed_OSM_data2)):
-        #processed_OSM_data2 = lst.append(processed_OSM_data2[size -1 - i])
-    return processed_OSM_data2
+    lst = []
+    for i in range size:
+        lst.append(processed_OSM_data2[size - i])
+    return lst
 """
 def quickSort(array, ascending=False):
     if len(array) <= 1:
