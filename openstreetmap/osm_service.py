@@ -515,10 +515,16 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                 street = processed_OSM_data2[i]
                 processed_OSM_data2[i] = processed_OSM_data2[j]
                 processed_OSM_data2[j] = street"""
-    processed_OSM_data2 = quickSort(processed_OSM_data2)
+    #processed_OSM_data2 = quickSort(processed_OSM_data2)
+    size = len(processed_OSM_data2)
+    quickSort(processed_OSM_data2, 0, size - 1)
 
+    # Reverse to descending order
+    lst = []
+    for i in range (len(processed_OSM_data2)):
+        processed_OSM_data2 = lst.append(processed_OSM_data2[size -1 - i])
     return processed_OSM_data2
-
+"""
 def quickSort(array, ascending=False):
     if len(array) <= 1:
         return array
@@ -540,6 +546,50 @@ def quickSort(array, ascending=False):
     else:
         array = upper + median + lower
     return array
+    """
+
+# Quick sort in Python
+
+# function to find the pivot value
+def partition(array, low, high):
+
+  # choose the far-right element as pivot
+  pivot = len(array[high]['nodes'])
+
+  # pointer for greater element
+  i = low - 1
+
+  # traverse through all elements
+  # compare each with pivot value
+  for j in range(low, high):
+    if len(array[j]['nodes']) <= pivot:
+      # if element smaller than pivot is found
+      # swap it with the greater element pointed by i
+      i = i + 1
+
+      # swapping element at i with element at j
+      (array[i], array[j]) = (array[j], array[i])
+
+  # swap the pivot element with the greater element specified by i
+  (array[i + 1], array[high]) = (array[high], array[i + 1])
+
+  # return the position from where partition is done
+  return i + 1
+
+# function to perform quicksort
+def quickSort(array, low, high):
+
+    if low < high:
+        # find pivot element such that
+        # any element less than pivot goes to the left
+        # any element greater than pivot stays on the right
+        pi = partition(array, low, high)
+
+        # recursive call on the left of pivot
+        quickSort(array, low, pi - 1)
+
+        # recursive call on the right of pivot
+        quickSort(array, pi + 1, high)
 
 
 def validate(schema, data, resolver, json_message, error_code):
