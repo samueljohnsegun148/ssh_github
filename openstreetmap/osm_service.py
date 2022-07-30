@@ -520,9 +520,9 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
     quickSort(processed_OSM_data2, 0, size - 1)
 
     # Reverse to descending order
-    lst = []
-    for i in range (len(processed_OSM_data2)):
-        processed_OSM_data2 = lst.append(processed_OSM_data2[size -1 - i])
+    #lst = []
+    #for i in range (len(processed_OSM_data2)):
+        #processed_OSM_data2 = lst.append(processed_OSM_data2[size -1 - i])
     return processed_OSM_data2
 """
 def quickSort(array, ascending=False):
