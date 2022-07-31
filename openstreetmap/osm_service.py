@@ -515,14 +515,9 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                 processed_OSM_data2[i] = processed_OSM_data2[j]
                 processed_OSM_data2[j] = street"""
     # processed_OSM_data2 = quickSort(processed_OSM_data2)
-    size = len(processed_OSM_data2) - 1
-    quickSort(processed_OSM_data2, 0, size)
-
-    # Reverse to descending order
-    sorted_streets = []
-    for i in range(size + 1):
-        sorted_streets.append(processed_OSM_data2[size - i])
-    return sorted_streets
+    processed_OSM_data2 = (sorted(processed_OSM_data2, key=lambda x: len(x['nodes']),reverse=True))
+   
+    return processed_OSM_data2
 
 
 """
@@ -547,7 +542,7 @@ def quickSort(array, ascending=False):
     else:
         array = upper + median + lower
     return array
-    """
+    
 
 # Quick sort in Python
 
@@ -594,7 +589,7 @@ def quickSort(array, low, high):
         quickSort(array, low, pi - 1)
 
         # recursive call on the right of pivot
-        quickSort(array, pi + 1, high)
+        quickSort(array, pi + 1, high)"""
 
 
 def validate(schema, data, resolver, json_message, error_code):
