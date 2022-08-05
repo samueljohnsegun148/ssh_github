@@ -23,9 +23,11 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 app.wsgi_app=ProfilerMiddleware(app.wsgi_app,restrictions=[12],profile_dir='.')
 """
+#from werkzeug.middleware.profiler import ProfilerMiddleware
 app = Flask(__name__)
-app.config['JSON_SORT_KEYS'] = False
-
+#app.config['JSON_SORT_KEYS'] = False
+app.config["DEBUG"] = True
+#app.wsgi_app=ProfilerMiddleware(app.wsgi_app,restrictions=[12],profile_dir='.')
 
 @app.route('/preprocessor', methods=['POST', ])
 def get_map_data():
@@ -143,4 +145,4 @@ def get_map_data():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=False)
+    app.run(host='0.0.0.0', port=8080, debug=True)

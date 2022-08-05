@@ -29,5 +29,7 @@ flask-profiler==1.8.1
 func-timeout==4.3.5
 itsdangerous==2.1.2
 simplejson==3.17.6
+snakeviz==2.1.1
+tornado==6.2
 
 

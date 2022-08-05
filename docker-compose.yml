@@ -73,11 +73,11 @@ services:
         labels:
             ca.mcgill.a11y.image.preprocessor: 4
             ca.mcgill.a11y.image.port: 5000
-    openstreetmap:
-        image: ghcr.io/shared-reality-lab/image-preprocessor-openstreetmap:unstable
-        labels:
-            ca.mcgill.a11y.image.preprocessor: 3
-            ca.mcgill.a11y.image.port: 8080
+    #openstreetmap:
+        #image: ghcr.io/shared-reality-lab/image-preprocessor-openstreetmap:unstable
+        #labels:
+            #ca.mcgill.a11y.image.preprocessor: 3
+            #ca.mcgill.a11y.image.port: 8080
     #openstreetmap:
         #build:
             #context: .
@@ -86,6 +86,20 @@ services:
         #labels:
             #ca.mcgill.a11y.image.preprocessor: 3
             #ca.mcgill.a11y.image.port: 8080
+    openstreetmap:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        image: "osm-preprocessors:latest"
+        labels:
+            ca.mcgill.a11y.image.preprocessor: 3
+            ca.mcgill.a11y.image.port: 8080
+        ports:
+            - 8080:8080 
+        volumes:
+            - ./openstreetmap:/app
+            - ./schemas:/app/schemas   
+    
     object-sorting:
         image: ghcr.io/shared-reality-lab/image-preprocessor-sorting:unstable
         labels:
