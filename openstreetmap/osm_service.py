@@ -85,6 +85,7 @@ def get_streets(bbox_coord):
             except Exception:
                 error = 'Unable to get data. All servers down!'
                 logging.error(error)
+                OSM_data = []
     return (OSM_data)
 
 
