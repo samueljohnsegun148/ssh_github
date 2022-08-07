@@ -73,16 +73,17 @@ def get_streets(bbox_coord):
     try:
         OSM_data = server_config1(defaultServer, bbox_coord)        
     except OverpassUnknownHTTPStatusCode:
-        error = 'Trying connecting alternative server 1'
-        logging.error(error)
-        OSM_data = server_config1(secondaryServer1, bbox_coord) 
-    except OverpassUnknownHTTPStatusCode:
-        error = 'Trying connecting alternative server 2'
-        logging.error(error)
-        OSM_data = server_config1(secondaryServer2, bbox_coord)
-    except Exception:
-        error = 'Unable to get data. All servers down!'
-        logging.error(error)
+        try:
+            error = 'Trying connecting alternative server 1'
+            logging.error(error)
+            OSM_data = server_config1(secondaryServer1, bbox_coord)
+        except Exception:
+            error = 'Trying connecting alternative server 2'
+            logging.error(error)
+            OSM_data = server_config1(secondaryServer2, bbox_coord)
+    #except Exception:
+        #error = 'Unable to get data. All servers down!'
+        #logging.error(error)
     return (OSM_data)
 
 
