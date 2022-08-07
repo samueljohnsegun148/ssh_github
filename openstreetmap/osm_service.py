@@ -310,8 +310,9 @@ def get_amenities(bbox_coord):
         logging.error(error)
         amenities = server_config2(secondaryS3erver2, bbox_coord)
     except Exception:
-        error = 'Unable to get data. All servers down!'
-        logging.error(error)
+        #error = 'Unable to get data. All servers down!'
+        #logging.error(error)
+        raise Exception('Unable to get data. All servers down!')
        
     # Filter the amenity tags to the basic useful ones
     amenity = []
