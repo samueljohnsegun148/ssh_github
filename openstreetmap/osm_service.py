@@ -301,7 +301,7 @@ def get_amenities(bbox_coord):
     # points of interest (POIs)
     try:
        amenities = server_config2(defaultServer, bbox_coord)
-    except OverpassGatewayTimeout:
+    except Exception:
         error = 'Gateway timeout'
         logging.error(error)
         amenities = server_config2(secondaryServer1, bbox_coord)
