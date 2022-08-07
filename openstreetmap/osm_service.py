@@ -72,18 +72,19 @@ def server_config2(url, bbox_coord):
 def get_streets(bbox_coord):
     try:
         OSM_data = server_config1(defaultServer, bbox_coord)        
-    except OverpassUnknownHTTPStatusCode:
+    except Exception:
         try:
             error = 'Primary server not responding, so connecting alternative server 1'
             logging.error(error)
             OSM_data = server_config1(secondaryServer1, bbox_coord)
         except Exception:
-            error = 'Alternative server 1 not responding, so connecting alternative server 2'
-            logging.error(error)
-            OSM_data = server_config1(secondaryServer2, bbox_coord)
-    #except Exception:
-        #error = 'Unable to get data. All servers down!'
-        #logging.error(error)
+            try:
+                error = 'Alternative server 1 not responding, so connecting alternative server 2'
+                logging.error(error)
+                OSM_data = server_config1(secondaryServer2, bbox_coord)
+            except Exception:
+                error = 'Unable to get data. All servers down!'
+                logging.error(error)
     return (OSM_data)
 
 
@@ -304,20 +305,20 @@ def get_amenities(bbox_coord):
     # points of interest (POIs)
     try:
        amenities = server_config2(defaultServer, bbox_coord)
-    except OverpassUnknownHTTPStatusCode:
+    except Exception:
         try:
             error = 'Primary server not responding, so connecting alternative server 1'
             logging.error(error)
             amenities = server_config2(secondaryServer1, bbox_coord)
-        except OverpassUnknownHTTPStatusCode:
-            error = 'Alternative server 1 not responding, so connecting alternative server 2'
-            logging.error(error)
-            amenities = server_config2(secondaryServer2, bbox_coord)
-    #except Exception:
-        #error = 'Unable to get data. All servers down!'
-        #logging.error(error)
-        #raise Exception('Unable to get data. All servers down!')
-       
+        except Exception:
+            try:
+                error = 'Alternative server 1 not responding, so connecting alternative server 2'
+                logging.error(error)
+                amenities = server_config2(secondaryServer2, bbox_coord)
+            except Exception:
+                error = 'Unable to get data. All servers down!'
+                logging.error(error)
+              
     # Filter the amenity tags to the basic useful ones
     amenity = []
     if amenities.nodes:
