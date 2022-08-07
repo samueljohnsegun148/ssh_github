@@ -25,7 +25,7 @@ app.wsgi_app=ProfilerMiddleware(app.wsgi_app,restrictions=[12],profile_dir='.')
 """
 #from werkzeug.middleware.profiler import ProfilerMiddleware
 app = Flask(__name__)
-#app.config['JSON_SORT_KEYS'] = False
+app.config['JSON_SORT_KEYS'] = False
 app.config["DEBUG"] = True
 # app.config["OSM_URL_SECONDARY_TWO"]
 #app.wsgi_app=ProfilerMiddleware(app.wsgi_app,restrictions=[12],profile_dir='.')
