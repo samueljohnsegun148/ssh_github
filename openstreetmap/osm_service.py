@@ -306,7 +306,7 @@ def get_amenities(bbox_coord):
         logging.error(error)
         amenities = server_config2(secondaryServer1, bbox_coord)
     except Exception:
-         error = 'other exception errors'
+        error = 'other exception errors'
         logging.error(error)
         amenities = server_config2(secondaryServer2, bbox_coord)
     except Exception:
