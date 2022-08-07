@@ -305,16 +305,17 @@ def get_amenities(bbox_coord):
     try:
        amenities = server_config2(defaultServer, bbox_coord)
     except OverpassUnknownHTTPStatusCode:
-        error = 'Connecting alternative server 1'
-        logging.error(error)
-        amenities = server_config2(secondaryServer1, bbox_coord)
-    except OverpassUnknownHTTPStatusCode:
-        error = 'Connecting alternative server 2'
-        logging.error(error)
-        amenities = server_config2(secondaryServer2, bbox_coord)
-    except Exception:
-        error = 'Unable to get data. All servers down!'
-        logging.error(error)
+        try:
+            error = 'Connecting alternative server 1'
+            logging.error(error)
+            amenities = server_config2(secondaryServer1, bbox_coord)
+        except OverpassUnknownHTTPStatusCode:
+            error = 'Connecting alternative server 2'
+            logging.error(error)
+            amenities = server_config2(secondaryServer2, bbox_coord)
+    #except Exception:
+        #error = 'Unable to get data. All servers down!'
+        #logging.error(error)
         #raise Exception('Unable to get data. All servers down!')
        
     # Filter the amenity tags to the basic useful ones
