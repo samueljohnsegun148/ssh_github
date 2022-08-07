@@ -307,7 +307,7 @@ def get_amenities(bbox_coord):
         error = 'Connecting alternative server 1'
         logging.error(error)
         amenities = server_config2(secondaryServer1, bbox_coord)
-    except Exception:
+    except OverpassUnknownHTTPStatusCode:
         error = 'Connecting alternative server 2'
         logging.error(error)
         amenities = server_config2(secondaryServer2, bbox_coord)
