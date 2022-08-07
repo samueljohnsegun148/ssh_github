@@ -305,11 +305,11 @@ def get_amenities(bbox_coord):
     except Exception:
         error = 'Trying connecting alternativ3e server 1'
         logging.error(error)
-        amenities = server_config2(secondaryS3erver1, bbox_coord)
+        amenities = server_config2(secondaryServer1, bbox_coord)
     except Exception:
         error = 'Trying connecting alternativ3e server 2'
         logging.error(error)
-        amenities = server_config2(secondaryS3erver2, bbox_coord)
+        amenities = server_config2(secondaryServer2, bbox_coord)
     except OverpassUnknownHTTPStatusCode:
         error = 'Unable to get data. All servers down!'
         logging.error(error)
