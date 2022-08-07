@@ -11,7 +11,7 @@ from overpy.exception import (
     OverpassGatewayTimeout,
     OverpassRuntimeError,
 )
-from config import defaultServer, secondaryServer1, SecondaryServer2
+from config import defaultServer, secondaryServer1, secondaryServer2
 
 
 def create_bbox_coordinates(distance, lat, lon):
