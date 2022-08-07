@@ -309,7 +309,7 @@ def get_amenities(bbox_coord):
         error = 'other exception errors'
         logging.error(error)
         amenities = server_config2(secondaryServer2, bbox_coord)
-    except Exception:
+    else:
         error = 'Unable to get data.'
         logging.error(error)
        
