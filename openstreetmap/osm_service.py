@@ -70,7 +70,7 @@ def server_config2(url, bbox_coord):
 def get_streets(bbox_coord):
     try:
         OSM_data = server_config1(defaultServer, bbox_coord)        
-    except Exception:
+    except URLError:
         error = 'Trying connecting alternative server 1'
         logging.error(error)
         OSM_data = server_config1(secondaryServer1, bbox_coord) 
@@ -301,7 +301,7 @@ def get_amenities(bbox_coord):
     # points of interest (POIs)
     try:
        amenities = server_config2(defaultServer, bbox_coord)
-    except Exception:
+    except URLError:
         error = 'Trying connecting alternative server 1'
         logging.error(error)
         amenities = server_config2(secondaryServer1, bbox_coord)
