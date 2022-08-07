@@ -323,7 +323,7 @@ def get_amenities(bbox_coord):
               
     # Filter the amenity tags to the basic useful ones
     amenity = []
-    if amenities is not None and len(amenities) != 0:
+    if amenities is not None:
         if amenities.nodes:
             for node in amenities.nodes:
                 if node.tags.get("amenity") is not None:
