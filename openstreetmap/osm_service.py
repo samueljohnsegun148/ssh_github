@@ -76,7 +76,7 @@ def get_streets(bbox_coord):
         error = 'Trying connecting alternative server 1'
         logging.error(error)
         OSM_data = server_config1(secondaryServer1, bbox_coord) 
-    except Exception:
+    except OverpassUnknownHTTPStatusCode:
         error = 'Trying connecting alternative server 2'
         logging.error(error)
         OSM_data = server_config1(secondaryServer2, bbox_coord)
