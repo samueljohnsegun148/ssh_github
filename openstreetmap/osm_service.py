@@ -323,70 +323,71 @@ def get_amenities(bbox_coord):
               
     # Filter the amenity tags to the basic useful ones
     amenity = []
-    if amenities.nodes:
-        for node in amenities.nodes:
-            if node.tags.get("amenity") is not None:
-                amenity_record = {
-                    "id": int(node.id),
-                    "lat": float(node.lat),
-                    "lon": float(node.lon),
-                    "name": node.tags.get("name"),
-                    "cat": node.tags.get("amenity"),
-                }
-                # Fetch as many tags possible
+    if amenities is not None and len(amenities) != 0:
+        if amenities.nodes:
+            for node in amenities.nodes:
+                if node.tags.get("amenity") is not None:
+                    amenity_record = {
+                        "id": int(node.id),
+                        "lat": float(node.lat),
+                        "lon": float(node.lon),
+                        "name": node.tags.get("name"),
+                        "cat": node.tags.get("amenity"),
+                    }
+                    # Fetch as many tags possible
 
-                for key, value in node.tags.items():
-                    if value != node.tags.get(
-                            "name") and value != node.tags.get("amenity"):
-                        if key not in amenity_record:
-                            amenity_record[key] = value
+                    for key, value in node.tags.items():
+                        if value != node.tags.get(
+                                "name") and value != node.tags.get("amenity"):
+                            if key not in amenity_record:
+                                amenity_record[key] = value
 
-            # Delete keys with no value
-            amenity_record = dict(
-                x for x in amenity_record.items() if all(x))
-            amenity.append(amenity_record)
+                # Delete keys with no value
+                amenity_record = dict(
+                    x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record)
 
-    if amenities.ways:
-        for way in amenities.ways:
-            if way.tags.get("amenity") is not None:
-                amenity_record = {
-                    "id": int(way.id),
-                    "lat": float(way.center_lat),
-                    "lon": float(way.center_lon),
-                    "name": way.tags.get("name"),
-                    "cat": way.tags.get("amenity"),
-                }
-                # Fetch as many tags possible
-                for key, value in way.tags.items():
-                    if value != way.tags.get(
-                            "name") and value != way.tags.get("amenity"):
-                        if key not in amenity_record:
-                            amenity_record[key] = value
-            # Delete keys with no value
-            amenity_record = dict(
-                x for x in amenity_record.items() if all(x))
-            amenity.append(amenity_record)
+        if amenities.ways:
+            for way in amenities.ways:
+                if way.tags.get("amenity") is not None:
+                    amenity_record = {
+                        "id": int(way.id),
+                        "lat": float(way.center_lat),
+                        "lon": float(way.center_lon),
+                        "name": way.tags.get("name"),
+                        "cat": way.tags.get("amenity"),
+                    }
+                    # Fetch as many tags possible
+                    for key, value in way.tags.items():
+                        if value != way.tags.get(
+                                "name") and value != way.tags.get("amenity"):
+                            if key not in amenity_record:
+                                amenity_record[key] = value
+                # Delete keys with no value
+                amenity_record = dict(
+                    x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record)
 
-    if amenities.relations:
-        for rel in amenities.relations:
-            if rel.tags.get("amenity") is not None:
-                amenity_record = {
-                    "id": int(rel.id),
-                    "lat": float(rel.center_lat),
-                    "lon": float(rel.center_lon),
-                    "name": rel.tags.get("name"),
-                    "cat": rel.tags.get("amenity"),
-                }
-                # Fetch as many tags possible
-                for key, value in rel.tags.items():
-                    if value != rel.tags.get(
-                            "name") and value != rel.tags.get("amenity"):
-                        if key not in amenity_record:
-                            amenity_record[key] = value
-            # Delete keys with no value
-            amenity_record = dict(
-                x for x in amenity_record.items() if all(x))
-            amenity.append(amenity_record)
+        if amenities.relations:
+            for rel in amenities.relations:
+                if rel.tags.get("amenity") is not None:
+                    amenity_record = {
+                        "id": int(rel.id),
+                        "lat": float(rel.center_lat),
+                        "lon": float(rel.center_lon),
+                        "name": rel.tags.get("name"),
+                        "cat": rel.tags.get("amenity"),
+                    }
+                    # Fetch as many tags possible
+                    for key, value in rel.tags.items():
+                        if value != rel.tags.get(
+                                "name") and value != rel.tags.get("amenity"):
+                            if key not in amenity_record:
+                                amenity_record[key] = value
+                # Delete keys with no value
+                amenity_record = dict(
+                    x for x in amenity_record.items() if all(x))
+                amenity.append(amenity_record)
 
     return amenity
 
