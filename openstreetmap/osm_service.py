@@ -71,15 +71,15 @@ def get_streets(bbox_coord):
     try:
         OSM_data = server_config1(defaultServer, bbox_coord)        
     except Exception:
-        error = 'Gateway timeout'
+        error = 'Trying connecting alternative server 1'
         logging.error(error)
         OSM_data = server_config1(secondaryServer1, bbox_coord) 
     except Exception:
-        error = 'other exception errors'
+        error = 'Trying connecting alternative server 2'
         logging.error(error)
         OSM_data = server_config1(secondaryServer2, bbox_coord)
     except Exception:
-        error = 'Unable to get data'
+        error = 'Unable to get data. All servers down!'
         logging.error(error)
     return (OSM_data)
 
@@ -302,15 +302,15 @@ def get_amenities(bbox_coord):
     try:
        amenities = server_config2(defaultServer, bbox_coord)
     except Exception:
-        error = 'Gateway timeout'
+        error = 'Trying connecting alternativ3e server 1'
         logging.error(error)
-        amenities = server_config2(secondaryServer1, bbox_coord)
+        amenities = server_config2(secondaryS3erver1, bbox_coord)
     except Exception:
-        error = 'other exception errors'
+        error = 'Trying connecting alternativ3e server 2'
         logging.error(error)
-        amenities = server_config2(secondaryServer2, bbox_coord)
-    else:
-        error = 'Unable to get data.'
+        amenities = server_config2(secondaryS3erver2, bbox_coord)
+    except Exception:
+        error = 'Unable to get data. All servers down!'
         logging.error(error)
        
     # Filter the amenity tags to the basic useful ones
