@@ -70,7 +70,7 @@ def server_config2(url, bbox_coord):
 def get_streets(bbox_coord):
     try:
         OSM_data = server_config1(defaultServer, bbox_coord)        
-    except OverpassGatewayTimeout:
+    except Exception:
         error = 'Gateway timeout'
         logging.error(error)
         OSM_data = server_config1(secondaryServer1, bbox_coord) 
