@@ -10,6 +10,7 @@ from overpy.exception import (
     OverpassTooManyRequests,
     OverpassGatewayTimeout,
     OverpassRuntimeError,
+    OverpassUnknownHTTPStatusCode,
 )
 from config import defaultServer, secondaryServer1, secondaryServer2
 
@@ -78,7 +79,7 @@ def get_streets(bbox_coord):
         error = 'Trying connecting alternative server 2'
         logging.error(error)
         OSM_data = server_config1(secondaryServer2, bbox_coord)
-    except Exception:
+    except OverpassUnknownHTTPStatusCode:
         error = 'Unable to get data. All servers down!'
         logging.error(error)
     return (OSM_data)
@@ -309,10 +310,10 @@ def get_amenities(bbox_coord):
         error = 'Trying connecting alternativ3e server 2'
         logging.error(error)
         amenities = server_config2(secondaryS3erver2, bbox_coord)
-    except Exception:
-        #error = 'Unable to get data. All servers down!'
-        #logging.error(error)
-        raise Exception('Unable to get data. All servers down!')
+    except OverpassUnknownHTTPStatusCode:
+        error = 'Unable to get data. All servers down!'
+        logging.error(error)
+        #raise Exception('Unable to get data. All servers down!')
        
     # Filter the amenity tags to the basic useful ones
     amenity = []
