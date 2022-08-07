@@ -319,6 +319,7 @@ def get_amenities(bbox_coord):
             except Exception:
                 error = 'Unable to get data. All servers down!'
                 logging.error(error)
+                amenities = []
               
     # Filter the amenity tags to the basic useful ones
     amenity = []
