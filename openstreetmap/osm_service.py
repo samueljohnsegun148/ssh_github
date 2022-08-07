@@ -74,11 +74,11 @@ def get_streets(bbox_coord):
         OSM_data = server_config1(defaultServer, bbox_coord)        
     except OverpassUnknownHTTPStatusCode:
         try:
-            error = 'Trying connecting alternative server 1'
+            error = 'Primary server not responding, so connecting alternative server 1'
             logging.error(error)
             OSM_data = server_config1(secondaryServer1, bbox_coord)
         except Exception:
-            error = 'Trying connecting alternative server 2'
+            error = 'Alternative server 1 not responding, so connecting alternative server 2'
             logging.error(error)
             OSM_data = server_config1(secondaryServer2, bbox_coord)
     #except Exception:
@@ -306,11 +306,11 @@ def get_amenities(bbox_coord):
        amenities = server_config2(defaultServer, bbox_coord)
     except OverpassUnknownHTTPStatusCode:
         try:
-            error = 'Connecting alternative server 1'
+            error = 'Primary server not responding, so connecting alternative server 1'
             logging.error(error)
             amenities = server_config2(secondaryServer1, bbox_coord)
         except OverpassUnknownHTTPStatusCode:
-            error = 'Connecting alternative server 2'
+            error = 'Alternative server 1 not responding, so connecting alternative server 2'
             logging.error(error)
             amenities = server_config2(secondaryServer2, bbox_coord)
     #except Exception:
