@@ -11,6 +11,7 @@ from overpy.exception import (
     OverpassGatewayTimeout,
     OverpassRuntimeError,
 )
+from config import defaultServer, secondaryServer1, SecondaryServer2
 
 
 def create_bbox_coordinates(distance, lat, lon):
@@ -34,37 +35,49 @@ def create_bbox_coordinates(distance, lat, lon):
     bbox_coordinates = [lat_min, lon_min, lat_max, lon_max]
     return bbox_coordinates
 
-
-def get_streets(bbox_coord):
+def server_config1(url, bbox_coord):
     lat_min, lon_min = bbox_coord[0], bbox_coord[1]
     lat_max, lon_max = bbox_coord[2], bbox_coord[3]
     """ fetch all ways and nodes """
-    # sam = overpass/api/interpreter?
-    try:
-        api = overpy.Overpass(url="https://z.overpass-api.de/api/interpreter"
-           )
-        OSM_data = api.query(
-            f"""
-        way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
 
-        (._;>;);
-        out geom;
-        """
-        )
+    api = overpy.Overpass(url=url)
+    street_data = api.query(
+            f"""
+    way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
+
+    (._;>;);
+    out geom;
+    """
+    )
+    return street_data
+
+def server_config2(url, bbox_coord):
+    # Get amenities
+    lat_min, lon_min = bbox_coord[0], bbox_coord[1]
+    lat_max, lon_max = bbox_coord[2], bbox_coord[3]
+    api = overpy.Overpass(url=url)
+    street_amenity = api.query(
+        f"""
+    (node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+    way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+    rel({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
+    );
+    out center;
+    """
+    )
+    return street_amenity
+
+def get_streets(bbox_coord):
+    try:
+        OSM_data = server_config(defaultServer, bbox_coord)        
     except OverpassGatewayTimeout:
-        error = 'Overpass GatewayTimeout: High server load. Retry again'
-        logging.error(error)
-    except OverpassTooManyRequests:
-        error = 'Overpass Too many requests. Retry again'
-        logging.error(error)
-    except OverpassRuntimeError:
-        error = 'Overpass Runtime error. Retry again'
-        logging.error(error)
+        OSM_data = server_config(secondaryServer1, bbox_coord) 
     except Exception:
-        error = 'Overpass Attibute error. Retry again'
+        OSM_data = server_config(secondaryServer2, bbox_coord)
+    except Exception:
+        error = 'Unable to get data'
         logging.error(error)
-    else:
-        return (OSM_data)
+    return (OSM_data)
 
 
 def get_timestamp():
@@ -282,104 +295,84 @@ def allot_intersection(processed_OSM_data, inters_rec_up
 def get_amenities(bbox_coord):
     # Send request to OSM to get amenities which are part of
     # points of interest (POIs)
-    api = overpy.Overpass(url="https://z.overpass-api.de/api/interpreter"
-        )
-    lat_min, lon_min = bbox_coord[0], bbox_coord[1]
-    lat_max, lon_max = bbox_coord[2], bbox_coord[3]
-    # url="https://pegasus.cim.mcgill.ca/overpass/api/interpreter?"
     try:
-        amenities = api.query(
-            f"""
-
-        (node({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        way({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        rel({lat_min},{lon_min},{lat_max},{lon_max}) ["amenity"];
-        );
-        out center;
-        """
-        )
-
+       amenities = server_config2(defaultServer, bbox_coord)
     except OverpassGatewayTimeout:
-        error = 'Overpas GatewayTimeout: High server load. Retry again'
-        logging.error(error)
-    except OverpassTooManyRequests:
-        error = 'Overpass Too many requests. Retry again'
-        logging.error(error)
-    except OverpassRuntimeError:
-        error = 'Overpass Runtime error. Retry again'
-        logging.error(error)
+        amenities = server_config2(secondaryServer1, bbox_coord)
     except Exception:
-        error = 'Overpass Attibute error. Retry again'
+        amenities = server_config2(secondaryServer2, bbox_coord)
+    except Exception:
+        error = 'Unable to get data.'
         logging.error(error)
-    else:
-        # Filter the amenity tags to the basic useful ones
-        amenity = []
-        if amenities.nodes:
-            for node in amenities.nodes:
-                if node.tags.get("amenity") is not None:
-                    amenity_record = {
-                        "id": int(node.id),
-                        "lat": float(node.lat),
-                        "lon": float(node.lon),
-                        "name": node.tags.get("name"),
-                        "cat": node.tags.get("amenity"),
-                    }
-                    # Fetch as many tags possible
+    
+    # Filter the amenity tags to the basic useful ones
+    amenity = []
+    if amenities.nodes:
+        for node in amenities.nodes:
+            if node.tags.get("amenity") is not None:
+                amenity_record = {
+                    "id": int(node.id),
+                    "lat": float(node.lat),
+                    "lon": float(node.lon),
+                    "name": node.tags.get("name"),
+                    "cat": node.tags.get("amenity"),
+                }
+                # Fetch as many tags possible
 
-                    for key, value in node.tags.items():
-                        if value != node.tags.get(
-                                "name") and value != node.tags.get("amenity"):
-                            if key not in amenity_record:
-                                amenity_record[key] = value
+                for key, value in node.tags.items():
+                    if value != node.tags.get(
+                            "name") and value != node.tags.get("amenity"):
+                        if key not in amenity_record:
+                            amenity_record[key] = value
 
-                # Delete keys with no value
-                amenity_record = dict(
-                    x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record)
+            # Delete keys with no value
+            amenity_record = dict(
+                x for x in amenity_record.items() if all(x))
+            amenity.append(amenity_record)
 
-        if amenities.ways:
-            for way in amenities.ways:
-                if way.tags.get("amenity") is not None:
-                    amenity_record = {
-                        "id": int(way.id),
-                        "lat": float(way.center_lat),
-                        "lon": float(way.center_lon),
-                        "name": way.tags.get("name"),
-                        "cat": way.tags.get("amenity"),
-                    }
-                    # Fetch as many tags possible
-                    for key, value in way.tags.items():
-                        if value != way.tags.get(
-                                "name") and value != way.tags.get("amenity"):
-                            if key not in amenity_record:
-                                amenity_record[key] = value
-                # Delete keys with no value
-                amenity_record = dict(
-                    x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record)
+    if amenities.ways:
+        for way in amenities.ways:
+            if way.tags.get("amenity") is not None:
+                amenity_record = {
+                    "id": int(way.id),
+                    "lat": float(way.center_lat),
+                    "lon": float(way.center_lon),
+                    "name": way.tags.get("name"),
+                    "cat": way.tags.get("amenity"),
+                }
+                # Fetch as many tags possible
+                for key, value in way.tags.items():
+                    if value != way.tags.get(
+                            "name") and value != way.tags.get("amenity"):
+                        if key not in amenity_record:
+                            amenity_record[key] = value
+            # Delete keys with no value
+            amenity_record = dict(
+                x for x in amenity_record.items() if all(x))
+            amenity.append(amenity_record)
 
-        if amenities.relations:
-            for rel in amenities.relations:
-                if rel.tags.get("amenity") is not None:
-                    amenity_record = {
-                        "id": int(rel.id),
-                        "lat": float(rel.center_lat),
-                        "lon": float(rel.center_lon),
-                        "name": rel.tags.get("name"),
-                        "cat": rel.tags.get("amenity"),
-                    }
-                    # Fetch as many tags possible
-                    for key, value in rel.tags.items():
-                        if value != rel.tags.get(
-                                "name") and value != rel.tags.get("amenity"):
-                            if key not in amenity_record:
-                                amenity_record[key] = value
-                # Delete keys with no value
-                amenity_record = dict(
-                    x for x in amenity_record.items() if all(x))
-                amenity.append(amenity_record)
+    if amenities.relations:
+        for rel in amenities.relations:
+            if rel.tags.get("amenity") is not None:
+                amenity_record = {
+                    "id": int(rel.id),
+                    "lat": float(rel.center_lat),
+                    "lon": float(rel.center_lon),
+                    "name": rel.tags.get("name"),
+                    "cat": rel.tags.get("amenity"),
+                }
+                # Fetch as many tags possible
+                for key, value in rel.tags.items():
+                    if value != rel.tags.get(
+                            "name") and value != rel.tags.get("amenity"):
+                        if key not in amenity_record:
+                            amenity_record[key] = value
+            # Delete keys with no value
+            amenity_record = dict(
+                x for x in amenity_record.items() if all(x))
+            amenity.append(amenity_record)
 
-        return amenity
+    return amenity
 
 
 def enlist_POIs(processed_OSM_data1, amenity):
@@ -518,7 +511,7 @@ def OSM_preprocessor(processed_OSM_data, POIs, amenity):
                 processed_OSM_data2[j] = street"""
     # processed_OSM_data2 = quickSort(processed_OSM_data2)
     processed_OSM_data2 = (sorted(processed_OSM_data2, key=lambda x: len(x['nodes']),reverse=True))
-   
+
     return processed_OSM_data2
 
 
@@ -544,7 +537,7 @@ def quickSort(array, ascending=False):
     else:
         array = upper + median + lower
     return array
-    
+
 
 # Quick sort in Python
 

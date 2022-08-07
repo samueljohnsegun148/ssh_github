@@ -27,6 +27,7 @@ app.wsgi_app=ProfilerMiddleware(app.wsgi_app,restrictions=[12],profile_dir='.')
 app = Flask(__name__)
 #app.config['JSON_SORT_KEYS'] = False
 app.config["DEBUG"] = True
+app.config["OSM_URL_SECONDARY_TWO"]
 #app.wsgi_app=ProfilerMiddleware(app.wsgi_app,restrictions=[12],profile_dir='.')
 
 @app.route('/preprocessor', methods=['POST', ])
