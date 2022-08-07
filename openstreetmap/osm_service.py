@@ -303,11 +303,11 @@ def get_amenities(bbox_coord):
     try:
        amenities = server_config2(defaultServer, bbox_coord)
     except Exception:
-        error = 'Trying connecting alternativ3e server 1'
+        error = 'Trying connecting alternative server 1'
         logging.error(error)
         amenities = server_config2(secondaryServer1, bbox_coord)
     except Exception:
-        error = 'Trying connecting alternativ3e server 2'
+        error = 'Trying connecting alternative server 2'
         logging.error(error)
         amenities = server_config2(secondaryServer2, bbox_coord)
     except OverpassUnknownHTTPStatusCode:
