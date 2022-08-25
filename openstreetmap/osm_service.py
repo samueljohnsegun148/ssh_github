@@ -632,3 +632,11 @@ def get_coordinates(content):
     """
     if 'coordinates' in content.keys():
         return content['coordinates']
+
+def scale_distance(content):
+    # Make distance scalable
+    try:
+        distance = content["distance"]
+    except Exception:
+        distance: float = 200
+    return distance

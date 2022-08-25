@@ -15,6 +15,7 @@ from osm_service import (
     OSM_preprocessor,
     validate,
     get_coordinates,
+    scale_distance,
 )
 """
 from werkzeug.middleware.profiler import ProfilerMiddleware
@@ -74,10 +75,7 @@ def get_map_data():
 
     latitude = coords["latitude"]
     longitude = coords["longitude"]
-    distance = content["distance"]
-    if distance is None:
-        distance: float = 200
-        
+    distance = scale_distance(content)
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
     name = "ca.mcgill.a11y.image.preprocessor.openstreetmap"
