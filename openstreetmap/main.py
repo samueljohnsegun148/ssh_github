@@ -109,37 +109,59 @@ def get_map_data():
                 "timestamp": time_stamp,
                 "name": name,
                 "data": {
-                    "bounds": header_info,
-                    "points_of_interest": POIs,
-                    "streets": response}}
+                    "street_info": {
+                        "bounds": header_info,
+                        "points_of_interest": POIs,
+                        "streets": response
+                    }
+                }
+            }
+                    
         elif amenity is not None:
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": name,
                 "data": {
-                    "bounds": header_info,
-                    "points_of_interest": amenity}}
+                    "street_info": {
+                        "bounds": header_info,
+                        "points_of_interest": amenity
+                    }
+                }
+            }             
         else:
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": name,
-                "data": {"bounds": header_info}
+                "data": {
+                    "street_info": {
+                        "bounds": header_info
+                    }
+                }
             }
     elif OSM_data is None and amenity is not None:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
             "name": name,
-            "data": {"bounds": header_info, "points_of_interest": amenity}
+            "data": {
+                "street_info": {
+                    "bounds": header_info, 
+                    "points_of_interest": amenity
+                }
+            }   
         }
     else:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
             "name": name,
-            "data": {"bounds": header_info}
+            "data": {
+                "street_info": {
+                    "bounds": header_info
+                }
+            }
         }
     validated = validate(
         schema=schema,
