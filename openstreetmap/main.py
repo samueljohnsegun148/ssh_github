@@ -78,8 +78,17 @@ def get_map_data():
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
     header_info = {
-        "longitude": f" From {bbox_coordinates[1]} To {bbox_coordinates[3]} ",
-        "latitude": f" From {bbox_coordinates[0]} To {bbox_coordinates[2]} "}
+        "bounds": {
+            "latitude": {
+                "min": bbox_coordinates[0],
+                "max": bbox_coordinates[2]
+            },
+            "longitude": {
+                "min": bbox_coordinates[1],
+                "max": bbox_coordinates[3]
+            }
+        }
+    }
     OSM_data = get_streets(bbox_coordinates)
     request_uuid = content["request_uuid"]
     amenity = get_amenities(bbox_coordinates)
