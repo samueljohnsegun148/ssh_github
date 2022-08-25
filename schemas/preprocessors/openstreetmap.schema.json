@@ -28,6 +28,36 @@
         }
     },
     "properties": {
+        "bounds": {
+            "type": "object",
+            "description": "Header information with the minimum and maximum values for latitude and longitude.",
+            "properties": {
+                "latitude": {
+                    "type": "object",
+                    "description": " This represents the minimum and maximum latitude values",
+                    "properties": {
+                        "min": {
+                            "$ref": "#/definitions/node/lat"
+                        },
+                        "max": {
+                            "$ref": "#/definitions/node/lat"
+                        }
+                    }   
+                },
+                "longitude": {
+                    "type": "object",
+                    "description": " This represents the minimum and maximum longitude values",
+                    "properties": {
+                        "min": {
+                            "$ref": "#/definitions/node/lon"
+                        },
+                        "max": {
+                            "$ref": "#/definitions/node/lon"
+                        }
+                    }
+                }
+            }
+        },   
         "street_info": {
             "type": "object",
             "description": "A set of streets and points of interest.",

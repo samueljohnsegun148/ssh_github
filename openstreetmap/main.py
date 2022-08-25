@@ -78,15 +78,13 @@ def get_map_data():
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
     header_info = {
-        "bounds": {
-            "latitude": {
-                "min": bbox_coordinates[0],
-                "max": bbox_coordinates[2]
-            },
-            "longitude": {
-                "min": bbox_coordinates[1],
-                "max": bbox_coordinates[3]
-            }
+        "latitude": {
+            "min": bbox_coordinates[0],
+            "max": bbox_coordinates[2]
+        },
+        "longitude": {
+            "min": bbox_coordinates[1],
+            "max": bbox_coordinates[3]
         }
     }
     OSM_data = get_streets(bbox_coordinates)
@@ -109,7 +107,7 @@ def get_map_data():
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
                 "data": {
-                    "Header_Info": header_info,
+                    "bounds": header_info,
                     "points_of_interest": POIs,
                     "streets": response}}
         elif amenity is not None:
@@ -118,28 +116,28 @@ def get_map_data():
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
                 "data": {
-                    "Header_Info": header_info,
+                    "bounds": header_info,
                     "points_of_interest": amenity}}
         else:
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
                 "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-                "data": {"Header_Info": header_info}
+                "data": {"bounds": header_info}
             }
     elif OSM_data is None and amenity is not None:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
             "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-            "data": {"Header_Info": header_info, "points_of_interest": amenity}
+            "data": {"bounds": header_info, "points_of_interest": amenity}
         }
     else:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
             "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
-            "data": {"Header_Info": header_info}
+            "data": {"bounds": header_info}
         }
     validated = validate(
         schema=schema,
