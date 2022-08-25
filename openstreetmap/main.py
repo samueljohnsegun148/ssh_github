@@ -77,6 +77,7 @@ def get_map_data():
     distance: float = 200
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
+    name = "ca.mcgill.a11y.image.preprocessor.openstreetmap"
     header_info = {
         "latitude": {
             "min": bbox_coordinates[0],
@@ -105,7 +106,7 @@ def get_map_data():
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
-                "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
+                "name": name,
                 "data": {
                     "bounds": header_info,
                     "points_of_interest": POIs,
@@ -114,7 +115,7 @@ def get_map_data():
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
-                "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
+                "name": name,
                 "data": {
                     "bounds": header_info,
                     "points_of_interest": amenity}}
@@ -122,21 +123,21 @@ def get_map_data():
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
-                "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
+                "name": name,
                 "data": {"bounds": header_info}
             }
     elif OSM_data is None and amenity is not None:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
-            "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
+            "name": name,
             "data": {"bounds": header_info, "points_of_interest": amenity}
         }
     else:
         response = {
             "request_uuid": request_uuid,
             "timestamp": time_stamp,
-            "name": "ca.mcgill.a11y.image.preprocessor.openstreetmap",
+            "name": name,
             "data": {"bounds": header_info}
         }
     validated = validate(
