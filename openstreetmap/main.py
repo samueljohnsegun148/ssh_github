@@ -74,7 +74,8 @@ def get_map_data():
 
     latitude = coords["latitude"]
     longitude = coords["longitude"]
-    distance: float = 200
+    distance = content["distance"]
+    #distance: float = 200
     time_stamp = int(get_timestamp())
     bbox_coordinates = create_bbox_coordinates(distance, latitude, longitude)
     name = "ca.mcgill.a11y.image.preprocessor.openstreetmap"
