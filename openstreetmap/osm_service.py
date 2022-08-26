@@ -149,7 +149,10 @@ def process_streets_data(OSM_data):
 
                 # Delete key if value is empty
                 way_object = dict(x for x in way_object.items() if all(x))
-                processed_OSM_data.append(way_object)
+
+                # Include only streets with names
+                if "street_name" in way_object:
+                    processed_OSM_data.append(way_object)
     except AttributeError:
         error = 'Overpass Attibute error. Retry again'
         logging.error(error)
