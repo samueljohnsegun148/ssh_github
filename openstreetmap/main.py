@@ -163,16 +163,6 @@ def get_map_data():
                 }
             }
         }
-    response = {
-        "request_uuid": request_uuid,
-        "timestamp": time_stamp,
-        "name": name,
-        "data": {
-            "street_info": {
-                "bounds": intersection_record_updated
-            }
-        }
-    }
     validated = validate(
         schema=schema,
         data=response,
