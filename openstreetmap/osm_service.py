@@ -411,7 +411,7 @@ def enlist_POIs(processed_OSM_data1, amenity):
                 if key_to_check in nodes[node]:
                     if nodes[node]["cat"]:  # ensure the "cat" key has a value
                         # Check to remove duplicate intersections
-                        if nodes[node]["cat"] not in POIs: 
+                        if nodes[node] not in POIs: 
                             POIs.append(nodes[node])
     if amenity is not None and len(amenity) != 0:
         # POIs = [objs for objs in amenity]
