@@ -127,34 +127,34 @@ def process_streets_data(OSM_data):
                 oneway = bool(oneway)
             else:
                 oneway = oneway
-                way_object = {
-                    "street_id": int(way.id),
-                    "street_name": way.tags.get("name"),
-                    "street_type": way.tags.get("highway"),
-                    "addr:street": way.tags.get("addr:street"),
-                    "surface": way.tags.get("surface"),
-                    "oneway": oneway,
-                    "sidewalk": way.tags.get("sidewalk"),
-                    "maxspeed": way.tags.get("maxspeed"),
-                    "lanes": lanes,
+            way_object = {
+                "street_id": int(way.id),
+                "street_name": way.tags.get("name"),
+                "street_type": way.tags.get("highway"),
+                "addr:street": way.tags.get("addr:street"),
+                "surface": way.tags.get("surface"),
+                "oneway": oneway,
+                "sidewalk": way.tags.get("sidewalk"),
+                "maxspeed": way.tags.get("maxspeed"),
+                "lanes": lanes,
 
-                }
-                # Fetch as many tags as possible
-                """
-                for key, value in way.tags.items():
-                    if value != way.tags.get(
-                            "name") and value != way.tags.get("highway"):
-                        if key not in way_object:
-                            way_object[key] = value
-                            """
-                way_object["nodes"] = node_list
+            }
+            # Fetch as many tags as possible
+            """
+            for key, value in way.tags.items():
+                if value != way.tags.get(
+                    "name") and value != way.tags.get("highway"):
+                    if key not in way_object:
+                        way_object[key] = value
+                        """
+            way_object["nodes"] = node_list
 
-                # Delete key if value is empty
-                way_object = dict(x for x in way_object.items() if all(x))
+            # Delete key if value is empty
+            way_object = dict(x for x in way_object.items() if all(x))
 
-                # Include only streets with names
-                if "street_name" in way_object:
-                    processed_OSM_data.append(way_object)
+            # Include only streets with names
+            if "street_name" in way_object:
+                processed_OSM_data.append(way_object)
     except AttributeError:
         error = 'Overpass Attibute error. Retry again'
         logging.error(error)
