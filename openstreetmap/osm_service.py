@@ -45,13 +45,13 @@ def server_config1(url, bbox_coord):
     api = overpy.Overpass(url=url)
     street_data = api.query(
             f"""
-    way[highway](around:200,45.49486,-73.58191);
+    way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
     (._;>;);
     out body;
     """
     )
     #way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
-
+    #way[highway](around:200,45.49486,-73.58191);
     #(._;>;);
     #out body;
     #motorway|trunk|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link
