@@ -45,7 +45,7 @@ def server_config1(url, bbox_coord):
     api = overpy.Overpass(url=url)
     street_data = api.query(
             f"""
-    way({lat_min},{lon_min},{lat_max},{lon_max})["highway"!="footway"];
+    way({lat_min},{lon_min},{lat_max},{lon_max})["highway"!="footway"|"service"];
 
     (._;>;);
     out geom;
