@@ -34,7 +34,6 @@
             "properties": {
                 "street_info": {
                     "type": "object",
-                    "title": "street_info",
                     "description": "Contains the map boundary, points of interest, and set of streets.",
                     "properties": {
                         "bounds": {
@@ -112,10 +111,10 @@
                                     "street_type": {"type": "string"},
                                     "addr:street": {"type": "string"},
                                     "surface": {"type": "string"},
-                                    "oneway": {"type": "string"},
+                                    "oneway": {"type": "boolean"},
                                     "sidewalk": {"type": "string"},
                                     "maxspeed": {"type": "string"},
-                                    "lanes": {"type": "string"},
+                                    "lanes": {"type": "number"},
                                     "nodes": {
                                         "type": "array",
                                         "title": "nodes",
