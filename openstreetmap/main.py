@@ -163,6 +163,16 @@ def get_map_data():
                 }
             }
         }
+    response = {
+        "request_uuid": request_uuid,
+        "timestamp": time_stamp,
+        "name": name,
+        "data": {
+            "street_info": {
+                "bounds": intersection_record_updated
+            }
+        }
+    }
     validated = validate(
         schema=schema,
         data=response,
@@ -173,7 +183,7 @@ def get_map_data():
     if validated is not None:
         return validated
     logging.debug("Sending response")
-    return intersection_record_updated
+    return response
 
 
 if __name__ == "__main__":
