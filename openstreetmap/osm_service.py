@@ -639,6 +639,8 @@ def scale_distance(content):
     # Make distance scalable
     try:
         distance = content["distance"]
+        if distance <= 0:
+            distance: float = 200
     except Exception:
         distance: float = 200
     return distance
