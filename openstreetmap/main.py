@@ -117,7 +117,7 @@ def get_map_data():
                 }
             }
                     
-        elif amenity is not None:
+        elif amenity is not None and len(amenity) != 0:
             response = {
                 "request_uuid": request_uuid,
                 "timestamp": time_stamp,
