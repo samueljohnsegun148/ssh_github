@@ -45,12 +45,13 @@ def server_config1(url, bbox_coord):
     api = overpy.Overpass(url=url)
     street_data = api.query(
             f"""
-    way({lat_min},{lon_min},{lat_max},{lon_max}) ["highway"!~"footway|service"];
+    way({lat_min},{lon_min},{lat_max},{lon_max}) ["highway"~"footway|service"];
 
     (._;>;);
     out geom;
     """
     )
+    
     #motorway|trunk|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link
     #[highway~"!^(primary|tertiary|residential|service|footway)$"]
     #[highway~"^(primary|tertiary|secondary|crossing|pedestrian|living_street|residential|motorway|trunk|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link)$"];
