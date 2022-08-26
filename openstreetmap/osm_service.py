@@ -48,7 +48,7 @@ def server_config1(url, bbox_coord):
     way({lat_min},{lon_min},{lat_max},{lon_max})[highway];
 
     (._;>;);
-    out geom;
+    out body;
     """
     )
     
