@@ -24,6 +24,7 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 app.wsgi_app=ProfilerMiddleware(app.wsgi_app,restrictions=[12],profile_dir='.')
 """
+#from
 #from werkzeug.middleware.profiler import ProfilerMiddleware
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
